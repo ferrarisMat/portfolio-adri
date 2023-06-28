@@ -1,5 +1,16 @@
 @mixin main-bg {
-  background: radial-gradient(239.19% 57.59% at 50% 53.36%, #2e3558 26.69%, #2e3558 62.71%, #2b0613 91.81%), no-repeat;
+  background:
+  linear-gradient(
+    to top,
+    rgba(157, 8, 98, 0.445) 0%,
+    rgba(167, 11, 97, 0.4293) 3.5243%,
+    rgba(190, 17, 93, 0.3818) 14.19%,
+    rgba(208, 23, 90, 0.3275) 26.4%,
+    rgba(221, 26, 88, 0.2632) 40.86%,
+    rgba(229, 28, 87, 0.179) 59.78%,
+    rgba(231, 29, 87, 0) 100%
+  ),
+  #18003F;
 }
 
 @mixin main-bg-menu {
