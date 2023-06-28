@@ -9,6 +9,7 @@
 			<a href="mailto:hello@adrientardy.com" class="footer-link">contact</a>
 			<a href="https://www.instagram.com/adrien__tardy/" target="_blank" class="footer-link">instagram</a>
 		</footer>
+		<background></background>
 	</div>
 </template>
 
@@ -32,47 +33,53 @@ export default {
 		],
 	},
 	mounted() {
-		lottie.loadAnimation({
-			container: this.$refs.planetAnim,
-			renderer: 'svg',
-			loop: true,
-			autoplay: true,
-			path: '/temp/website-planet.json',
-		});
+		this.loadAnimation('planetAnim', '/temp/website-planet.json', true, true);
 		this.animationTimeout = setTimeout(() => {
-			lottie.loadAnimation({
-				container: this.$refs.logoAnim,
-				renderer: 'svg',
-				loop: false,
-				autoplay: true,
-				path: '/temp/logo-adrien-tardy.json',
-			});
+			this.loadAnimation('logoAnim', '/temp/logo-adrien-tardy.json', false, true);
 		}, 1000);
-		lottie.loadAnimation({
-			container: this.$refs.starsAnim,
-			renderer: 'svg',
-			loop: true,
-			autoplay: true,
-			path: '/temp/stars.json',
-		});
-		lottie.loadAnimation({
-			container: this.$refs.textAnim,
-			renderer: 'svg',
-			loop: true,
-			autoplay: true,
-			path: '/temp/website-in-progress.json',
-		});
+		this.loadAnimation('starsAnim', '/temp/stars.json', true, true);
+		this.loadAnimation('textAnim', '/temp/website-in-progress.json', true, true);
 	},
 	beforeDestroy() {
 		clearTimeout(this.animationTimeout);
 	},
-	methods: {},
+	methods: {
+		loadAnimation(ref, path, loop, autoplay) {
+			lottie.loadAnimation({
+				container: this.$refs[ref],
+				renderer: 'svg',
+				loop,
+				autoplay,
+				path,
+			});
+		},
+	},
 };
 </script>
 
 <style lang="scss">
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes float {
+	0% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+
 body {
-	@include main-bg;
+	background: #410644;
 }
 .stars-animation,
 .planet-animation {
@@ -81,10 +88,21 @@ body {
 	width: 100%;
 	height: 100%;
 }
+.stars-animation {
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	@media screen and (max-width: 768px) {
+		transform: scale(2);
+	}
+}
 .planet-animation {
 	bottom: -50%;
 	left: -30%;
 	transform: scale(2);
+	opacity: 0;
+	animation: fadeIn 2s ease-in-out forwards;
 	@media screen and (max-width: 1172px) {
 		transform: scale(1.5);
 	}
@@ -92,18 +110,24 @@ body {
 		transform: scale(1.3);
 	}
 	@media screen and (max-width: 768px) {
-		transform: scale(2.2);
+		transform: scale(2.5);
 		left: unset;
 		bottom: -70%;
 	}
 }
 .text-animation {
 	position: absolute;
+	opacity: 0;
+	animation: fadeIn 0.5s ease-in-out forwards;
 	h2 {
 		text-indent: -1000000px;
 		position: absolute;
 	}
 	padding: 64px;
+	@media screen and (max-width: 768px) {
+		padding: 48px;
+		width: 70%;
+	}
 }
 .logo-animation {
 	position: absolute;
@@ -111,8 +135,12 @@ body {
 	height: 100%;
 	transform: translateX(20%);
 	@media screen and (max-width: 768px) {
-		transform: translateX(0) translateY(50%);
+		top: 45%;
+		transform: translateX(0) translateY(-55%);
 		height: unset;
+	}
+	@media screen and (max-width: 580px) {
+		transform: translateX(0) translateY(-50%) scale(1.6);
 	}
 	h1 {
 		text-indent: -1000000px;
@@ -123,6 +151,11 @@ body {
 	position: absolute;
 	right: 64px;
 	top: 64px;
+	@media screen and (max-width: 768px) {
+		right: 16px;
+		top: 32px;
+		animation: float 6s ease-in-out infinite;
+	}
 }
 footer {
 	position: absolute;
@@ -131,6 +164,8 @@ footer {
 	padding: 64px;
 	width: 100%;
 	justify-content: flex-end;
+	opacity: 0;
+	animation: fadeIn 0.4s 2s ease-in-out forwards;
 	.footer-link {
 		font-size: 36px;
 		line-height: 36px;
@@ -173,7 +208,7 @@ footer {
 	}
 	@media screen and (max-width: 768px) {
 		justify-content: center;
-		bottom: 30%;
+		bottom: 20%;
 		.footer-link {
 			font-size: 24px;
 			line-height: 24px;
