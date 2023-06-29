@@ -1,0 +1,31 @@
+@mixin main-bg {
+	background: linear-gradient(
+			to top,
+			rgba(157, 8, 98, 0.445) 0%,
+			rgba(167, 11, 97, 0.4293) 3.5243%,
+			rgba(190, 17, 93, 0.3818) 14.19%,
+			rgba(208, 23, 90, 0.3275) 26.4%,
+			rgba(221, 26, 88, 0.2632) 40.86%,
+			rgba(229, 28, 87, 0.179) 59.78%,
+			rgba(231, 29, 87, 0) 100%
+		),
+		#18003f;
+}
+
+@mixin main-bg-menu {
+	background: radial-gradient(154.32% 125.11% at 50% 136.78%, #2e3558 0%, #2e3558 27.11%, #2b0613 100%), no-repeat;
+}
+
+@mixin visually-hidden {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px 1px 1px 1px);
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	white-space: nowrap;
+}

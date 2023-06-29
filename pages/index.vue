@@ -1,93 +1,218 @@
 <template>
-  <div id="app">
-    <h1>Your Upcoming Destinations</h1>
-    <div class="location-contain">
-      <locations-wrapper>
-        <location-item
-          v-for="location in locations"
-          :key="location.img"
-          :img="location.img"
-          :name="location.name"
-          :desc="location.desc"
-        ></location-item>
-      </locations-wrapper>
-    </div>
-  </div>
+	<div id="app">
+		<small-planet class="small-planet"></small-planet>
+		<div ref="planetAnim" class="planet-animation"></div>
+		<div ref="starsAnim" class="stars-animation"></div>
+		<div ref="logoAnim" class="logo-animation"><h1>Adrien Tardy</h1></div>
+		<div ref="textAnim" class="text-animation"><h2>Website in progress</h2></div>
+		<footer>
+			<a href="mailto:hello@adrientardy.com" class="footer-link">contact</a>
+			<a href="https://www.instagram.com/adrien__tardy/" target="_blank" class="footer-link">instagram</a>
+		</footer>
+		<background></background>
+	</div>
 </template>
 
 <script>
-import LocationItem from '~/components/LocationItem.vue'
-import LocationsWrapper from '~/components/LocationsWrapper.vue'
+import lottie from 'lottie-web';
+
 export default {
-  name: 'IndexPage',
-  components: { LocationItem, LocationsWrapper },
-  data() {
-    return {
-      locations: [
-        {
-          name: 'moscow',
-          img: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/moscow.svg',
-          desc: `Moscow
-is the capital and most populous city of Russia, with 13.2 million residents
-within the city limits and 17.8 million within the urban area. Moscow has the
-status of a Russian federal city.`
-        },
-        {
-          name: 'paris',
-          img: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/paris1.svg',
-          desc: `Paris is
-the capital and most populous city of France. By the 17th century, Paris was one
-of Europe's major centres of finance, commerce, fashion, science, and the arts,
-and it retains that position still today.`
-        },
-        {
-          name: 'rome',
-          img: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/rome.svg',
-          desc: `Rome's
-history spans more than 2,500 years. While Roman mythology dates the founding of
-Rome at around 753 BC, the site has been inhabited for much longer, making it
-one of the oldest continuously occupied sites in Europe.`
-        },
-        {
-          name: 'paris',
-          img: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/paris2.svg',
-          desc: `By
-the end of the 12th century, Paris had become the political, economic,
-religious, and cultural capital of France. Maurice de Sully undertook the
-construction of the Notre Dame Cathedral at its eastern extremity.`
-        }
-      ]
-    }
-  }
-}
+	name: 'IndexPage',
+	data() {
+		return {
+			animationTimeout: null,
+		};
+	},
+	head: {
+		title: 'Adrien Tardy - Portfolio',
+		meta: [
+			{ hid: 'description', name: 'description', content: 'Adrien Tardy Portfolio' },
+			{ hid: 'og:title', property: 'og:title', content: 'Adrien Tardy - Portfolio' },
+			{ hid: 'og:description', property: 'og:description', content: 'Website in development' },
+			{ hid: 'og:image', property: 'og:image', content: require('@/assets/temp.webp') },
+		],
+	},
+	mounted() {
+		this.loadAnimation('planetAnim', '/temp/website-planet.json', true, true);
+		this.animationTimeout = setTimeout(() => {
+			this.loadAnimation('logoAnim', '/temp/logo-adrien-tardy.json', false, true);
+		}, 1000);
+		this.loadAnimation('starsAnim', '/temp/stars.json', true, true);
+		this.loadAnimation('textAnim', '/temp/website-in-progress.json', true, true);
+	},
+	beforeDestroy() {
+		clearTimeout(this.animationTimeout);
+	},
+	methods: {
+		loadAnimation(ref, path, loop, autoplay) {
+			lottie.loadAnimation({
+				container: this.$refs[ref],
+				renderer: 'svg',
+				loop,
+				autoplay,
+				path,
+			});
+		},
+	},
+};
 </script>
 
 <style lang="scss">
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes float {
+	0% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+
 body {
-  width: 100vw;
-  height: 100vh;
-  font-family: 'NTR', sans-serif;
-  background: #eee;
+	background: #410644;
 }
-h1 {
-  text-align: center;
+.stars-animation,
+.planet-animation {
+	position: absolute;
+	pointer-events: none;
+	width: 100%;
+	height: 100%;
 }
-.place {
-  display: flex;
-  flex-direction: column;
-  width: 280px;
-  justify-content: center;
-  background: white;
-  border: 1px solid #ddd;
-  padding: 20px 20px;
-  margin: 10px;
-  h2 {
-    margin: 0;
-    text-align: center;
-  }
-  img {
-    margin: 10px;
-    align-self: center;
-  }
+.stars-animation {
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	@media screen and (max-width: 768px) {
+		transform: scale(2);
+	}
+}
+.planet-animation {
+	bottom: -50%;
+	left: -30%;
+	transform: scale(2);
+	opacity: 0;
+	animation: fadeIn 2s ease-in-out forwards;
+	@media screen and (max-width: 1172px) {
+		transform: scale(1.5);
+	}
+	@media screen and (max-width: 1024px) {
+		transform: scale(1.3);
+	}
+	@media screen and (max-width: 768px) {
+		transform: scale(2.5);
+		left: unset;
+		bottom: -70%;
+	}
+}
+.text-animation {
+	position: absolute;
+	opacity: 0;
+	animation: fadeIn 0.5s ease-in-out forwards;
+	h2 {
+		text-indent: -1000000px;
+		position: absolute;
+	}
+	padding: 64px;
+	@media screen and (max-width: 768px) {
+		padding: 48px;
+		width: 70%;
+	}
+}
+.logo-animation {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	transform: translateX(20%);
+	@media screen and (max-width: 768px) {
+		top: 45%;
+		transform: translateX(0) translateY(-55%);
+		height: unset;
+	}
+	@media screen and (max-width: 580px) {
+		transform: translateX(0) translateY(-50%) scale(1.6);
+	}
+	h1 {
+		text-indent: -1000000px;
+		position: absolute;
+	}
+}
+.small-planet {
+	position: absolute;
+	right: 64px;
+	top: 64px;
+	@media screen and (max-width: 768px) {
+		right: 16px;
+		top: 32px;
+		animation: float 6s ease-in-out infinite;
+	}
+}
+footer {
+	position: absolute;
+	bottom: 0;
+	display: flex;
+	padding: 64px;
+	width: 100%;
+	justify-content: flex-end;
+	opacity: 0;
+	animation: fadeIn 0.4s 2s ease-in-out forwards;
+	.footer-link {
+		font-size: 36px;
+		line-height: 36px;
+		color: #15ffa8;
+		font-family: 'MBFOrigin', sans-serif;
+		position: relative;
+		padding-bottom: 4px;
+		&:not(:last-child) {
+			margin-right: 48px;
+			&::before {
+				position: absolute;
+				content: '';
+				display: block;
+				height: 100%;
+				width: 3px;
+				background: #ffffff;
+				top: 50%;
+				transform: translateY(-50%);
+				right: calc(-24px - 1.5px);
+				pointer-events: none;
+			}
+		}
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			height: 3px;
+			width: 100%;
+			background: #15ffa8;
+			transform: scaleX(0);
+			transform-origin: right;
+			transition: transform 0.4s cubic-bezier(0.6, 0, 0.6, 1);
+		}
+
+		&:hover::after {
+			transform: scaleX(1);
+			transform-origin: left;
+		}
+	}
+	@media screen and (max-width: 768px) {
+		justify-content: center;
+		bottom: 20%;
+		.footer-link {
+			font-size: 24px;
+			line-height: 24px;
+		}
+	}
 }
 </style>
