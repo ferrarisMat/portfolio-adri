@@ -44,7 +44,7 @@ export default {
 			return this.isTouchDevice
 				? {}
 				: {
-						transform: `translate(${this.mouseX / 20}px, ${this.mouseY / 20}px)`,
+						transform: `translate3d(${this.mouseX / 20}px, ${this.mouseY / 20}px, 0)`,
 				  };
 		},
 	},
