@@ -4,7 +4,12 @@
 		<div ref="planetAnim" class="planet-animation"></div>
 		<div ref="starsAnim" class="stars-animation"></div>
 		<div ref="logoAnim" class="logo-animation"><h1>Adrien Tardy</h1></div>
-		<div ref="textAnim" class="text-animation"><h2>Website in progress</h2></div>
+		<div class="text-animation">
+			<h2>
+				Website
+				<span>in progress</span>
+			</h2>
+		</div>
 		<footer>
 			<a href="mailto:hello@adrientardy.com" class="footer-link">contact</a>
 			<a href="https://www.instagram.com/adrien__tardy/" target="_blank" class="footer-link">instagram</a>
@@ -38,7 +43,7 @@ export default {
 			this.loadAnimation('logoAnim', '/temp/logo-adrien-tardy.json', false, true);
 		}, 1000);
 		this.loadAnimation('starsAnim', '/temp/stars.json', true, true);
-		this.loadAnimation('textAnim', '/temp/website-in-progress.json', true, true);
+		// this.loadAnimation('textAnim', '/temp/website-in-progress.json', true, true);
 	},
 	beforeDestroy() {
 		clearTimeout(this.animationTimeout);
@@ -66,6 +71,18 @@ export default {
 		opacity: 1;
 	}
 }
+
+@keyframes translateIn {
+	0% {
+		opacity: 0;
+		transform: translate3d(0, 10px, 0);
+	}
+	100% {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
 @keyframes float {
 	0% {
 		transform: translateY(0px);
@@ -117,16 +134,30 @@ body {
 }
 .text-animation {
 	position: absolute;
-	opacity: 0;
-	animation: fadeIn 0.5s ease-in-out forwards;
 	h2 {
-		text-indent: -1000000px;
-		position: absolute;
+		font-size: 6vw;
+		opacity: 0;
+		line-height: 1;
+		font-family: 'MBFOrigin', sans-serif;
+		font-weight: 300;
+		color: #ffffff;
+		animation: translateIn 0.5s 2.3s ease-in-out forwards;
+		span {
+			opacity: 0;
+			display: block;
+			color: #c9b5ff;
+			animation: translateIn 0.5s 2.3s ease-in-out forwards;
+		}
+		@media screen and (max-width: 768px) {
+			font-size: 64px;
+		}
+		@media screen and (max-width: 580px) {
+			font-size: 48px;
+		}
 	}
 	padding: 64px;
 	@media screen and (max-width: 768px) {
 		padding: 48px;
-		width: 70%;
 	}
 }
 .logo-animation {
@@ -151,6 +182,8 @@ body {
 	position: absolute;
 	right: 64px;
 	top: 64px;
+	animation: fadeIn 2s ease-in-out forwards;
+
 	@media screen and (max-width: 768px) {
 		right: 16px;
 		top: 32px;
@@ -165,7 +198,7 @@ footer {
 	width: 100%;
 	justify-content: flex-end;
 	opacity: 0;
-	animation: fadeIn 0.4s 2s ease-in-out forwards;
+	animation: translateIn 0.4s 2s ease-in-out forwards;
 	.footer-link {
 		font-size: 36px;
 		line-height: 36px;
