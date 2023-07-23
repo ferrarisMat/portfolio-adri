@@ -38,11 +38,11 @@ export default {
 		],
 	},
 	mounted() {
-		this.loadAnimation('planetAnim', '/temp/website-planet.json', true, true);
+		this.loadAnimation('planetAnim', '/lottie/website-planet.json', true, true);
 		this.animationTimeout = setTimeout(() => {
-			this.loadAnimation('logoAnim', '/temp/logo-adrien-tardy.json', false, true);
+			this.loadAnimation('logoAnim', '/lottie/logo-adrien-tardy.json', false, true);
 		}, 1000);
-		this.loadAnimation('starsAnim', '/temp/stars.json', true, true);
+		this.loadAnimation('starsAnim', '/lottie/stars.json', true, true);
 		// this.loadAnimation('textAnim', '/temp/website-in-progress.json', true, true);
 	},
 	beforeDestroy() {
